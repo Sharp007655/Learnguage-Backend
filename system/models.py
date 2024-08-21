@@ -16,9 +16,15 @@ class AllWordData(models.Model):
   read = models.CharField(max_length=100)
   mean = models.CharField(max_length=200)
   language = models.IntegerField()
-  
+
+class OriginalWordData(models.Model):
+  user = models.IntegerField()
+  word = models.CharField(max_length=50)
+  read = models.CharField(max_length=100)
+  mean = models.CharField(max_length=200)
+
 class UserWordData(models.Model):
-  user =models.IntegerField()
+  user = models.IntegerField()
   word = models.IntegerField()
   count = models.IntegerField(default=1)
   quiz = models.IntegerField(default=0)
