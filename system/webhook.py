@@ -108,11 +108,11 @@ def textMessage(user_id, message, reply_token):
 
 def textAction(user_id, message, reply_token):
     
-    if message[0] == MESSAGE_TRIGGER:
+    #if message[0] == MESSAGE_TRIGGER:
         
-        textCommand(user_id, message, reply_token)
+        #textCommand(user_id, message, reply_token)
     
-    else:
+    #else:
         
         textMessage(user_id, message, reply_token)
 

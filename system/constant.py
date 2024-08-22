@@ -3,6 +3,9 @@ import os
 # チャンネルアクセストークン
 CHANNEL_ACCESS_TOKEN = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
 
+#LLMキー
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
 # リクエストヘッダー
 HEADERS = {
     'Content-Type': 'application/json',
