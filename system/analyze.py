@@ -1,6 +1,9 @@
 from konlpy.tag import Okt
+from hangul_romanize import Transliter
+from hangul_romanize.rule import academic
 from .translate import *
 from .constant import *
+from .models import *
 
 
 def koAnalyze(text):
@@ -10,18 +13,61 @@ def koAnalyze(text):
     return okt.morphs(text)
 
 
-def addTranslatedWord(arr, source_lang):
+def hangulRomanize(text):
+    
+    transliter = Transliter(academic)
+    
+    return transliter.translit(text)
+
+
+def addTranslatedWord(user_id, arr, source_lang):
     
     words = []
     
+    lang = LanguageData.objects.get(lang_en=source_lang)
+    
+    user = UserData.objects.get(user_id=user_id)
+    
     for word in arr:
         
-        words.append(
-            {
-                "source": word,
-                "translated": translate(word, source_lang)
+        if AllWordData.objects.filter(word=word, language=lang.id).exists():
+            
+            word = AllWordData.objects.get(word=word, language=lang.id)
+            
+            dic = {
+                "source": word.word,
+                "translated": word.mean,
+                "read": word.read,
             }
-        )
+            
+            if not UserWordData.objects.filter(user=user.id, word=word.id).exists():
+                
+                UserWordData.objects.create(user=user.id, word=word.id)
+            
+            else:
+                
+                user_word = UserWordData.objects.get(user=user.id, word=word.id)
+                user_word.count += 1
+                user_word.save()
+        
+        else:
+            
+            translated = translate(word, source_lang)
+            
+            if source_lang == KOREAN:
+                read = hangulRomanize(word)
+            
+            new_word = AllWordData.objects.create(word=word, mean=translated, read=read, language=lang.id)
+            
+            UserWordData.objects.create(word=new_word.id, user=user.id)
+            
+            dic = {
+                "source": word,
+                "translated": translated,
+                "read": read
+            }
+        
+        words.append(dic)
     
     return words
 

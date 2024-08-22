@@ -6,13 +6,16 @@ from .quiz import *
 from .analyze import *
 
 
-def analyze(message, language):
+def analyze(user_id, message, language):
     
     if language == KOREAN:
         
         arr = koAnalyze(message)
         
-        words = addTranslatedWord(arr, KOREAN)
+        while '.' in arr:
+            arr.remove('.')
+        
+        words = addTranslatedWord(user_id, arr, KOREAN)
     
     return words
 
@@ -85,13 +88,13 @@ def textMessage(user_id, message, reply_token):
     
     elif user.mode == ModeData.objects.get(name=MODE_ANALYZE).id:
         
+        sendLoadingAnimation(user_id)
+        
         target = translate(message, LanguageData.objects.get(id=user.language).lang_en)
         
-        words = analyze(message, LanguageData.objects.get(id=user.language).lang_en)
+        words = analyze(user_id, message, LanguageData.objects.get(id=user.language).lang_en)
         
-        print(words)
-        
-        objects = [ messageTranslateFormat({'source': message, 'translated': target }), messageDictionaryFormat(words), messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) ]
+        objects = [ messageTranslateFormat({'source': message, 'translated': target, 'read': hangulRomanize(message) }), messageDictionaryFormat(words), messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) ]
         
         sendReply(objects, reply_token)
         

@@ -72,7 +72,7 @@ def messageDictionaryFormat(translate_arr):
     
     for word in translate_arr:
         
-        res["contents"]["contents"].append(flexMessage.dictionary(word["source"], word["translated"]))
+        res["contents"]["contents"].append(flexMessage.dictionary(word["source"], word["translated"], word['read']))
         
         i += 1
         if i >= 12:
@@ -85,6 +85,6 @@ def messageTranslateFormat(translate_arr):
     
     res = flexFormat(ANARYZE_RESULT)
     
-    res["contents"] = flexMessage.dictionary(translate_arr["source"], translate_arr["translated"])
+    res["contents"] = flexMessage.dictionary(translate_arr["source"], translate_arr["translated"], translate_arr['read'])
     
     return res

@@ -31,3 +31,16 @@ def sendReplyValidate(objects, reply_token):
     response = requests.post(LINE_Endpoint.REPLY_VALIDATE, data=data, headers=HEADERS)
     
     print(response.text)
+
+
+
+def sendLoadingAnimation(chat_id, sec=60):
+    
+    data = {
+        "chatId": chat_id,
+        "loadingSeconds": sec
+    }
+    
+    data = json.dumps(data)
+    
+    requests.post(LINE_Endpoint.LOADING, data=data, headers=HEADERS)

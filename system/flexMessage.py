@@ -1,4 +1,4 @@
-def dictionary(word, mean):
+def dictionary(word, mean, read):
     
     return {
         "type": "bubble",
@@ -26,6 +26,28 @@ def dictionary(word, mean):
                     "contents": [
                     {
                         "type": "text",
+                        "text": "読み",
+                        "color": "#aaaaaa",
+                        "size": "sm",
+                        "flex": 1
+                    },
+                    {
+                        "type": "text",
+                        "text": read,
+                        "wrap": True,
+                        "color": "#666666",
+                        "size": "sm",
+                        "flex": 5
+                    }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                    {
+                        "type": "text",
                         "text": "意味",
                         "color": "#aaaaaa",
                         "size": "sm",
@@ -40,7 +62,7 @@ def dictionary(word, mean):
                         "flex": 5
                     }
                     ]
-                }
+                }, 
                 ]
             }
             ]
