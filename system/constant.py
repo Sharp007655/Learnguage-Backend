@@ -32,3 +32,4 @@ MESSAGE_ANALYZE = '> 文構造を分析する'
 # メッセージ返信テキスト
 RESPONSE_FOLLOW = 'お友達登録ありがとうございます！\n一緒に言語を学びましょう。'
 RESPONSE_CHAT_NOT_STARTED = '現在、チャットモードがスタートされていません。\n下部メニューからチャットを開始してください。'
+RESPONSE_QUIZ = '次の言葉の読みを選ぼう。'

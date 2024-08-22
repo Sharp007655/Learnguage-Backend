@@ -27,8 +27,10 @@ class UserWordData(models.Model):
   user = models.IntegerField()
   word = models.IntegerField()
   count = models.IntegerField(default=1)
-  quiz = models.IntegerField(default=0)
-  correct = models.IntegerField(default=0)
+  quiz = models.IntegerField(default=1)
+  correct = models.IntegerField(default=1)
+  probability = models.IntegerField(default=1)
+  period = models.IntegerField(default=30)
   hide = models.BooleanField(default=False)
   
 class ModeData(models.Model):
