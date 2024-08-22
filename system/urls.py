@@ -20,5 +20,6 @@ from . import views
 app_name = "system"
 
 urlpatterns = [
+    path('healthcheck', views.healthcheck, name='healthcheck'),
     path('webhook', views.webhook, name="webhook")
 ]

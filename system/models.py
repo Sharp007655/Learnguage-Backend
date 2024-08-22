@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 
 class UserData(models.Model):
-  user_id = models.CharField(max_length=50)
-  language = models.IntegerField()
-  mode = models.IntegerField()
+  user_id = models.CharField(max_length=50, unique=True)
+  language = models.IntegerField(blank=True, null=True)
+  mode = models.IntegerField(blank=True, null=True)
   
 class LanguageData(models.Model):
   lang_ja = models.CharField(max_length=20)
@@ -27,9 +27,11 @@ class UserWordData(models.Model):
   user = models.IntegerField()
   word = models.IntegerField()
   count = models.IntegerField(default=1)
-  quiz = models.IntegerField(default=0)
-  correct = models.IntegerField(default=0)
+  quiz = models.IntegerField(default=1)
+  correct = models.IntegerField(default=1)
+  probability = models.IntegerField(default=1)
+  period = models.IntegerField(default=30)
   hide = models.BooleanField(default=False)
   
 class ModeData(models.Model):
-  name = models.CharField(max_length=50)
+  name = models.CharField(max_length=50, unique=True)

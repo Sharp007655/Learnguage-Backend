@@ -28,7 +28,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG') == "True"
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = [ 'https://api.learnguage.somando.jp' ]
 
 
 # Application definition
