@@ -10,6 +10,11 @@ import json
 
 # Webhookを受け取り、routeを実行する
 
+def healthcheck(request):
+    
+    return JsonResponse({ 'status': 'running' })
+
+
 @csrf_exempt
 def webhook(request):
     

@@ -16,3 +16,31 @@ def sendReply(objects, reply_token):
     data = json.dumps(data)
     
     requests.post(LINE_Endpoint.REPLY, data=data, headers=HEADERS)
+
+
+
+def sendReplyValidate(objects, reply_token):
+    
+    data = { 
+        "replyToken": reply_token,
+        "messages": objects
+    }
+    
+    data = json.dumps(data)
+    
+    response = requests.post(LINE_Endpoint.REPLY_VALIDATE, data=data, headers=HEADERS)
+    
+    print(response.text)
+
+
+
+def sendLoadingAnimation(chat_id, sec=60):
+    
+    data = {
+        "chatId": chat_id,
+        "loadingSeconds": sec
+    }
+    
+    data = json.dumps(data)
+    
+    requests.post(LINE_Endpoint.LOADING, data=data, headers=HEADERS)

@@ -3,27 +3,68 @@ from .models import *
 from .messageFormat import *
 from .send import *
 from .quiz import *
+from .analyze import *
+
+
+def analyze(user_id, message, language):
+    
+    if language == KOREAN:
+        
+        arr = koAnalyze(message)
+        
+        while '.' in arr:
+            arr.remove('.')
+        
+        words = addTranslatedWord(user_id, arr, KOREAN)
+    
+    return words
 
 
 # リッチメニュー操作時のルートをする関数（未実装）
 # user_id: string, message: string, reply_token: string
 
-#def textCommand(user_id, message, reply_token):
+def textCommand(user_id, message, reply_token):
     
-#    if message == MESSAGE_CHAT_START:
-        
-#    elif message == MESSAGE_CHAT_FINISH:
-        
-#    elif message == MESSAGE_QUIZ:
-        
-#        messages = [ messageTextFormat(RESPONSE_QUIZ) ]
-        
-#        sendReply(messages, reply_token)
-        
-#        question = quiz_create(user_id,reply_token)
-        
-#    elif message == MESSAGE_ANALYZE:
+    user = UserData.objects.get(user_id=user_id)
     
+    if message == MESSAGE_CHAT_START:
+        
+        user.mode = ModeData.objects.get(name=MODE_CHAT).id
+    
+    elif message == MESSAGE_CHAT_FINISH:
+        
+        user.mode = None
+    
+    elif message == MESSAGE_QUIZ:
+        
+        user.mode = ModeData.objects.get(name=MODE_QUIZ).id
+        
+        messages = [ messageTextFormat(RESPONSE_QUIZ) ]
+        
+        sendReply(messages, reply_token)
+        
+        question = quiz_create(user_id)
+    
+    elif message == MESSAGE_ANALYZE:
+        
+        user.mode = ModeData.objects.get(name=MODE_ANALYZE).id
+        
+        sendReply([ messageTextFormat(RESPONSE_ANALYZE_START) ], reply_token)
+    
+    elif LANGUAGE_TRIGGER in message:
+        
+        arr = JA_LANG.keys()
+        
+        for lang in arr:
+            
+            if JA_LANG[lang] in message:
+                
+                user.language = LanguageData.objects.get(lang_en=lang).id
+                break
+        
+        sendReply( [ messageTextFormat( RESPONSE_CHOOSED_LANG( JA_LANG[lang] ) ) ], reply_token )
+    
+    user.save()
 
 
 # テキスト入力時のルートをする関数
@@ -35,15 +76,30 @@ def textMessage(user_id, message, reply_token):
     
     user = UserData.objects.get(user_id=user_id)
     
-    if user.mode == ModeData.objects.get(name=MODE_CHAT).id:
+    if user.mode == None:
+        
+        objects = [ messageTextFormat(RESPONSE_MENU_NOT_SELECTED) ]
+        
+        sendReply(objects, reply_token)
+    
+    elif user.mode == ModeData.objects.get(name=MODE_CHAT).id:
         # LLM使用部
         pass
     
-    else:
+    elif user.mode == ModeData.objects.get(name=MODE_ANALYZE).id:
         
-        messages = [ messageTextFormat(RESPONSE_CHAT_NOT_STARTED) ]
+        sendLoadingAnimation(user_id)
         
-        sendReply(messages, reply_token)
+        target = translate(message, LanguageData.objects.get(id=user.language).lang_en)
+        
+        words = analyze(user_id, message, LanguageData.objects.get(id=user.language).lang_en)
+        
+        objects = [ messageTranslateFormat({'source': message, 'translated': target, 'read': hangulRomanize(message) }), messageDictionaryFormat(words), messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) ]
+        
+        sendReply(objects, reply_token)
+        
+        user.mode = None
+        user.save()
 
 
 # リッチメニュー操作かテキスト入力かルートする関数
@@ -72,9 +128,23 @@ def createUser(user_id, reply_token):
         
         UserData.objects.create(user_id=user_id)
     
-    messages = [ messageTextFormat(RESPONSE_FOLLOW) ]
+    languages = LanguageData.objects.all()
+    
+    lang_arr = []
+    
+    for language in languages:
+        
+        lang_arr.append({ 'label': language.lang_ja, 'text': '> 「' + language.lang_ja + '」を学習する！' })
+    
+    messages = [ messageTextFormat(RESPONSE_FOLLOW), messageQuickReplyFormat(RESPONSE_CHOOSE_LANG, lang_arr) ]
     
     sendReply(messages, reply_token)
+
+
+def deleteUser(user_id):
+    
+    user = UserData.objects.get(user_id=user_id)
+    user.delete()
 
 
 # 処理ルート関数
@@ -86,19 +156,24 @@ def route(data):
         
         request_type = event["type"]
         user_id = event["source"]["userId"]
-        reply_token = event["replyToken"]
         
-        print(event)
+        if request_type == UNFOLLOW:
+            
+            deleteUser(user_id)
         
-        if request_type == MESSAGE:
+        else:
             
-            message_type = event["message"]["type"]
+            reply_token = event["replyToken"]
             
-            if message_type == TEXT:
+            if request_type == MESSAGE:
                 
-                message = event["message"]["text"]
-                textAction(user_id, message, reply_token)
-        
-        elif request_type == FOLLOW:
+                message_type = event["message"]["type"]
+                
+                if message_type == TEXT:
+                    
+                    message = event["message"]["text"]
+                    textAction(user_id, message, reply_token)
             
-            createUser(user_id, reply_token)
+            elif request_type == FOLLOW:
+                
+                createUser(user_id, reply_token)
