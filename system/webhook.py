@@ -93,7 +93,11 @@ def textMessage(user_id, message, reply_token):
         
         words = analyze(user_id, message, LanguageData.objects.get(id=user.language).lang_en)
         
-        objects = [ messageTranslateFormat({'source': message, 'translated': target, 'read': hangulRomanize(message) }), messageDictionaryFormat(words), messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) ]
+        objects = [ 
+            messageTranslateFormat({ 'source': message, 'translated': target, 'read': hangulRomanize(message) }), 
+            messageDictionaryFormat(words), 
+            messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) 
+        ]
         
         sendReply(objects, reply_token)
         
