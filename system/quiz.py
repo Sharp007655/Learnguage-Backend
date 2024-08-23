@@ -1,8 +1,12 @@
 from .constant import *
 from .models import *
+from .llm import *
+from .messageFormat import *
+from .send import *
 import random
-from random import choice
+from random import choice,shuffle
 
+#クイズ作成
 def quiz_create(user_id,reply_token):
     
     word_file = []
@@ -30,6 +34,31 @@ def quiz_create(user_id,reply_token):
 
 
 
+#クイズ出題
+def quiz_question(user_id,reply_token):
+    
+    user = UserData.objects.get(user_id=user_id)
+    
+    quiz_number = quiz_create(user_id)
+    
+    word_data = AllWordData.objects.get(id=quiz_number)
+    read = word_data.read
+    
+    option = options(quiz_number,read)
+    
+    shuffle(option)
+    
+    quiz_arr = []
+    
+    for i in (len(option)):
+        
+        j = i+1
+        
+        quiz_arr.append({ 'label': str(j) + ':' + option[i], 'text': str(j) + ':' + option[i]})
+    
+    messages = [ messageTextFormat(RESPONSE_QUIZ), messageQuickReplyFormat(RESPONSE_CHOOSE_LANG, quiz_arr) ]
+    
+    sendReply(messages, reply_token)
 
 # [
 #   { "label": "1. こんにちは", "text": "こんにちは" },

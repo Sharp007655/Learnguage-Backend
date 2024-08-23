@@ -37,13 +37,7 @@ def textCommand(user_id, message, reply_token):
     
     elif message == MESSAGE_QUIZ:
         
-        user.mode = ModeData.objects.get(name=MODE_QUIZ).id
-        
-        messages = [ messageTextFormat(RESPONSE_QUIZ) ]
-        
-        sendReply(messages, reply_token)
-        
-        question = quiz_create(user_id)
+        quiz_question(user_id,reply_token)
     
     elif message == MESSAGE_ANALYZE:
         
@@ -108,11 +102,11 @@ def textMessage(user_id, message, reply_token):
 
 def textAction(user_id, message, reply_token):
     
-    #if message[0] == MESSAGE_TRIGGER:
+    if message[0] == MESSAGE_TRIGGER:
         
-        #textCommand(user_id, message, reply_token)
+        textCommand(user_id, message, reply_token)
     
-    #else:
+    else:
         
         textMessage(user_id, message, reply_token)
 

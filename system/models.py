@@ -30,7 +30,7 @@ class UserWordData(models.Model):
   quiz = models.IntegerField(default=1)
   correct = models.IntegerField(default=1)
   probability = models.FloatField(default=1)
-  period = models.IntegerField(default=30)
+  period = models.IntegerField(default=0)
   hide = models.BooleanField(default=False)
   
 class ModeData(models.Model):

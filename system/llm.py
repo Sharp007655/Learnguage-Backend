@@ -9,6 +9,7 @@ from openai import OpenAI , api_key
 from pydantic import BaseModel, Field
 
 from .constant import *
+from .models import *
 
 #借り
 
@@ -19,37 +20,41 @@ class ResponseStep(BaseModel):
     
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-response = client.beta.chat.completions.parse(
-    model = "gpt-4o-2024-08-06",
-    temperature = 0,
+
+def options(word_number,read):
     
-    messages = [
-        {
-            
-            #ゴマすり
-            "role" : "system",
-            "content":"""あなたはとても優秀なAIです""",
-            
-        },
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    
+    response = client.beta.chat.completions.parse(
+        model = "gpt-4o-2024-08-06",
+        temperature = 0,
         
-        {
+        messages = [
+            {
+                
+                #ゴマすり
+                "role" : "system",
+                "content":"""あなたはとても優秀なAIです""",
+                
+            },
             
-            "role":"user",
-            "content":"「農林水産省」から意味は違うけど似た言葉３つなんでしょう。またその３つの言葉を　,　,　のようにいれてください。意味は答えなくていいです。",
-            
-        },
+            {
+                
+                "role":"user",
+                "content":"「" + read + "」から意味は違うけど似た言葉３つなんでしょう。またその３つの言葉を　,　,　のようにいれてください。意味は答えなくていいです。",
+                
+            },
 
-    ],
+        ],
+        
+        response_format = ResponseStep,
+        
+    )
+
+    parsed_response = response.choices[0].message.parsed
     
-    response_format = ResponseStep,
+    option = parsed_response.answer.split(", ")
     
-)
-
-#response.choices[0].message.parsed.steps
-
-parsed_response = response.choices[0].message.parsed
-#print(parsed_response.step)
-print(parsed_response.answer)
-
-print(parsed_response.answer.split(", "))
-
+    option.append(read)
+    
+    return option
