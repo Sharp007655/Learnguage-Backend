@@ -72,6 +72,37 @@ def addTranslatedWord(user_id, arr, source_lang):
     return words
 
 
+def deleteSymbol(arr, symbol_arr):
+    
+    for symbol in symbol_arr:
+        
+        while symbol in arr:
+            
+            arr.remove(symbol)
+    
+    return arr
+
+
+def deleteDoubleWord(before_arr):
+    
+    arr = []
+    
+    for word in before_arr:
+        if not word in arr:
+            arr.append(word)
+    
+    return arr
+
+
+def formatTranslateArray(arr):
+    
+    arr = deleteSymbol(arr, [SYMBOL_COMMA, SYMBOL_PERIOD, SYMBOL_EXCLAMATION, SYMBOL_QUESTION])
+    arr = deleteDoubleWord(arr)
+    
+    return arr
+
+
+
 # from soynlp import DoublespaceLineCorpus
 # from soynlp.word import WordExtractor
 # from soynlp.tokenizer import LTokenizer, MaxScoreTokenizer

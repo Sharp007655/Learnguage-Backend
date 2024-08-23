@@ -12,8 +12,7 @@ def analyze(user_id, message, language):
         
         arr = koAnalyze(message)
         
-        while '.' in arr:
-            arr.remove('.')
+        arr = formatTranslateArray(arr)
         
         words = addTranslatedWord(user_id, arr, KOREAN)
     
