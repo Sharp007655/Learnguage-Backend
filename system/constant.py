@@ -62,6 +62,12 @@ JA_LANG = {
     CHINESE: '中国語'
 }
 
+# 記号
+SYMBOL_COMMA = ','
+SYMBOL_PERIOD = '.'
+SYMBOL_QUESTION = '?'
+SYMBOL_EXCLAMATION = '!'
+
 # その他
 LANGUAGE_TRIGGER = '語'
 ANARYZE_RESULT = '分析結果'
