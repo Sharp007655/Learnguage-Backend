@@ -21,5 +21,6 @@ app_name = "system"
 
 urlpatterns = [
     path('healthcheck', views.healthcheck, name='healthcheck'),
-    path('webhook', views.webhook, name="webhook")
+    path('webhook', views.webhook, name="webhook"),
+    path('user/dictionary', views.userDict, name="userDict")
 ]
