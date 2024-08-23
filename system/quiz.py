@@ -15,14 +15,7 @@ def quiz_create(user_id,reply_token):
     user = UserData.objects.get(user_id=user_id)
     user_word =UserWordData.objects.filter(user=user.id)
     
-    
-    word_count = UserWordData.objects.filter(user=user.id).count()
-    
-    for a in range(word_count):
-        
-        word_id = user_word[a]
-        
-        print(word_id.word)
+    for word_id in user_word:
         
         if word_id.period == 1 and word_id.hide == False:
             
@@ -106,11 +99,7 @@ def probability_update(user_id,word_number,judgment):
     
     #print(user_word_count)
     
-    for a in range(user_word_count):
-        
-        word = user_word[a]
-        
-        print(word.word)
+    for word in user_word:
         
         if word.period == 1:
             
