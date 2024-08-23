@@ -47,6 +47,9 @@ RESPONSE_MENU_NOT_SELECTED = '現在、モードが選択されていません�
 RESPONSE_ANALYZE_START = '文の分析を開始しました。テキストを送信してください。\n(メッセージ送信後、自動的にオフになります。)'
 RESPONSE_REANALYZE = '続けて分析する場合は下部のボタンを押してください。'
 RESPONSE_QUIZ = '次の言葉の読みを選ぼう。'
+RESPONSE_GOOD = '正解！'
+RESPONSE_BAT = '残念！'
+RESPONSE_ONE_MORE_QUIZ = '続けてもう一問する場合は下部のボタンを押してください。'
 
 def RESPONSE_CHOOSED_LANG(language):
     return language + "を選択しました！\nこれから頑張りましょう！！"

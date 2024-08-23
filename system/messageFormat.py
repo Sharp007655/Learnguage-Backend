@@ -88,3 +88,27 @@ def messageTranslateFormat(translate_arr):
     res["contents"] = flexMessage.dictionary(translate_arr["source"], translate_arr["translated"], translate_arr['read'])
     
     return res
+
+def messageTranslateFormat_quiz(translate_arr,datas):
+    
+    res = flexFormat(ANARYZE_RESULT)
+    
+    res["contents"] = flexMessage.dictionary_quiz(translate_arr["source"], translate_arr['read'])
+    
+    res["quickReply"] = {}
+    quick_reply = []
+    
+    for data in datas:
+        
+        quick_reply.append({
+            'type': 'action',
+            'action': {
+                'type': 'message',
+                'label': data["label"],
+                'text': data["text"]
+            }
+        })
+    
+    res["quickReply"]["items"] = quick_reply
+    
+    return res

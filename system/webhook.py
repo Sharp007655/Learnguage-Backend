@@ -38,11 +38,7 @@ def textCommand(user_id, message, reply_token):
         
         user.mode = ModeData.objects.get(name=MODE_QUIZ).id
         
-        messages = [ messageTextFormat(RESPONSE_QUIZ) ]
-        
-        sendReply(messages, reply_token)
-        
-        question = quiz_create(user_id)
+        quiz_question(user_id,reply_token)
     
     elif message == MESSAGE_ANALYZE:
         
@@ -103,6 +99,36 @@ def textMessage(user_id, message, reply_token):
         
         user.mode = None
         user.save()
+        
+    elif user.mode == ModeData.objects.get(name=MODE_QUIZ).id:
+        
+        quiz_data = QuizData.objects.get(user=user.id)
+        word_data = AllWordData.objects.get(id=quiz_data.word)
+        
+        if message == quiz_data.correct:
+            judgment = RESPONSE_GOOD
+            judgment_number = 1
+            
+        else:
+            judgment = RESPONSE_BAT
+            judgment_number = 0
+            
+        probability_update(user_id,quiz_data.word,judgment_number)
+        
+        objects = [
+            messageTextFormat(judgment),
+            messageTranslateFormat({ 'source': word_data.word, 'translated': word_data.mean, 'read': word_data.read }),
+            messageQuickReplyFormat(RESPONSE_ONE_MORE_QUIZ, [{ 'label': '続けてもう一問', 'text': MESSAGE_QUIZ }]) 
+        ]
+        
+        sendReply(objects, reply_token)
+        
+        user.mode = None
+        user.save()
+        
+        quiz_data.word = None
+        quiz_data.correct = None
+        quiz_data.save()
 
 
 # リッチメニュー操作かテキスト入力かルートする関数
@@ -151,6 +177,8 @@ def deleteUser(user_id):
     OriginalWordData.objects.filter(user=user.id).delete()
     
     UserWordData.objects.filter(user=user.id).delete()
+    
+    QuizData.objects.filter(user=user.id).delete()
     
     user.delete()
 
