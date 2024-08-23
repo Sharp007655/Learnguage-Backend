@@ -96,7 +96,7 @@ def deleteDoubleWord(before_arr):
 
 def formatTranslateArray(arr):
     
-    arr = deleteSymbol(arr, [SYMBOL_COMMA, SYMBOL_PERIOD, SYMBOL_EXCLAMATION, SYMBOL_QUESTION])
+    arr = deleteSymbol(arr, [SYMBOL_COMMA, SYMBOL_PERIOD, SYMBOL_EXCLAMATION, SYMBOL_QUESTION, SYMBOL_EM_SPACE])
     arr = deleteDoubleWord(arr)
     
     return arr
