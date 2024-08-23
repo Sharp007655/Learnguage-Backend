@@ -147,6 +147,11 @@ def createUser(user_id, reply_token):
 def deleteUser(user_id):
     
     user = UserData.objects.get(user_id=user_id)
+    
+    OriginalWordData.objects.filter(user=user.id).delete()
+    
+    UserWordData.objects.filter(user=user.id).delete()
+    
     user.delete()
 
 
