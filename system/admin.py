@@ -19,7 +19,7 @@ class UserWordDataAdmin(admin.ModelAdmin):
     list_display = ('user', 'word', 'count', 'quiz', 'correct', 'probability', 'period', 'hide')
 
 class ModeDataAdmin(admin.ModelAdmin):
-    list_display = ('mode')
+    list_display = ('name', )
 
 admin.site.register(UserData, UserDataAdmin)
 admin.site.register(LanguageData, LanguageDataAdmin)
