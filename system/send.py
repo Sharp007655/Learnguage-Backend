@@ -59,6 +59,4 @@ def tokenToUser(token):
     
     user_id = response.json()
     
-    print(user_id["sub"])
-    
     return UserData.objects.get(user_id=user_id["sub"])
