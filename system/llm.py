@@ -21,7 +21,13 @@ class ResponseStep(BaseModel):
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 
-def options(word_number,read):
+def options(user_id,word_number,read):
+    
+    user = UserData.objects.get(user_id=user_id)
+    lang = LanguageData.objects.get(id=user.language)
+    lang_ja = lang.lang_ja
+    
+    
     
     client = OpenAI(api_key=OPENAI_API_KEY)
     
@@ -41,7 +47,8 @@ def options(word_number,read):
             {
                 
                 "role":"user",
-                "content":"「" + read + "」から意味は違うけど似た言葉３つなんでしょう。またその３つの言葉を　,　,　のようにいれてください。意味は答えなくていいです。",
+                #"content":"クイズです「" + read + "」から意味は違うけど似た言葉３つなんでしょう。またその３つの言葉を　,　,　のように絶対にいれてください。「" + read + "」を含めた４つの言葉を" + lang_ja + "に翻訳したときすべて違う言葉になる必要があります。",
+                "content":"あなたは学校の先生です。" + lang_ja + "を読んでそれが意味する日本語を答える四択問題を作っています。あなたは答えが「" + read + "」の問題で「" + read + "」とは意味が違う言葉を3つ作る用意する必要があります。その時上げられる言葉を3つ答えてください。またその３つの言葉を　,　,　のように絶対にいれてください。言葉以外は答えなくていいです"
                 
             },
 
@@ -54,7 +61,7 @@ def options(word_number,read):
     parsed_response = response.choices[0].message.parsed
     
     option = parsed_response.answer.split(", ")
-    
+    print(option)
     option.append(read)
     
     return option

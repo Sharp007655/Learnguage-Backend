@@ -5,6 +5,9 @@ from .models import *
 
 class UserDataAdmin(admin.ModelAdmin):
     list_display = ('id', 'user_id', 'language', 'mode')
+    
+class QuizDataAdmin(admin.ModelAdmin):
+    list_display = ('id','user','correct', 'word')
 
 class LanguageDataAdmin(admin.ModelAdmin):
     list_display = ('id', 'lang_ja', 'lang_en')
@@ -22,6 +25,7 @@ class ModeDataAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', )
 
 admin.site.register(UserData, UserDataAdmin)
+admin.site.register(QuizData,QuizDataAdmin)
 admin.site.register(LanguageData, LanguageDataAdmin)
 admin.site.register(AllWordData, AllWordDataAdmin)
 admin.site.register(OriginalWordData, OriginalWordDataAdmin)
