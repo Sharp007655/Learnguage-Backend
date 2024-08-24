@@ -8,13 +8,11 @@ from .analyze import *
 
 def analyze(user_id, message, language):
     
-    if language == KOREAN:
-        
-        arr = koAnalyze(message)
-        
-        arr = formatTranslateArray(arr)
-        
-        words = addTranslatedWord(user_id, arr, KOREAN)
+    arr = allAnalyze(message, language)
+    
+    arr = formatTranslateArray(arr)
+    
+    words = addTranslatedWord(user_id, arr, language)
     
     return words
 
@@ -83,14 +81,14 @@ def textMessage(user_id, message, reply_token):
     
     elif user.mode == ModeData.objects.get(name=MODE_ANALYZE).id:
         
-        sendLoadingAnimation(user_id)
+        user_language = LanguageData.objects.get(id=user.language).lang_en
         
-        target = translate(message, LanguageData.objects.get(id=user.language).lang_en)
+        target = translate(message, user_language)
         
-        words = analyze(user_id, message, LanguageData.objects.get(id=user.language).lang_en)
+        words = analyze(user_id, message, user_language)
         
         objects = [ 
-            messageTranslateFormat({ 'source': message, 'translated': target, 'read': hangulRomanize(message) }), 
+            messageTranslateFormat({ 'source': message, 'translated': target, 'read': readWordLong(message, user_language) }), 
             messageDictionaryFormat(words), 
             messageQuickReplyFormat(RESPONSE_REANALYZE, [{ 'label': '続けて分析する', 'text': MESSAGE_ANALYZE }]) 
         ]
@@ -200,6 +198,8 @@ def route(data):
         else:
             
             reply_token = event["replyToken"]
+            
+            sendLoadingAnimation(user_id)
             
             if request_type == MESSAGE:
                 
