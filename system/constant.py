@@ -3,13 +3,19 @@ import os
 # チャンネルアクセストークン
 CHANNEL_ACCESS_TOKEN = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
 
+# ログインチャンネルID
+LOGIN_CHANNEL_ID = os.environ.get("LINE_LOGIN_CHANNEL_ID")
+
 #LLMキー
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 # リクエストヘッダー
-HEADERS = {
+HEADERS_JSON = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN
+}
+HEADERS_X_WWW_FORM_URLENCODED = {
+    'Content-Type': 'application/json',
 }
 
 # リクエストメソッド
@@ -36,17 +42,17 @@ MESSAGE_ANALYZE = '> 文構造を分析する'
 
 # メッセージ返信テキスト
 RESPONSE_FOLLOW = 'お友だち登録ありがとうございます！\n一緒に言語を学びましょう。'
-RESPONSE_CHOOSE_LANG = '下記メニューから学習したい言語を選択してください。\n(登録後も変更可能です。)'
+RESPONSE_CHOOSE_LANG = '下記メニューから学習したい言語を選択してください。'
 RESPONSE_MENU_NOT_SELECTED = '現在、モードが選択されていません。\n下部メニューからメニューを選択してください。'
 RESPONSE_ANALYZE_START = '文の分析を開始しました。テキストを送信してください。\n(メッセージ送信後、自動的にオフになります。)'
 RESPONSE_REANALYZE = '続けて分析する場合は下部のボタンを押してください。'
 RESPONSE_QUIZ = '次の言葉の読みを選ぼう。'
+RESPONSE_GOOD = '正解！'
+RESPONSE_BAT = '残念！'
+RESPONSE_ONE_MORE_QUIZ = '続けてもう一問する場合は下部のボタンを押してください。'
 
 def RESPONSE_CHOOSED_LANG(language):
     return language + "を選択しました！\nこれから頑張りましょう！！"
-
-# パス
-KO_CORPUS_PATH = '2016-10-20.txt'
 
 # DeepL言語略称
 JAPANESE = 'JA'

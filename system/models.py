@@ -7,6 +7,11 @@ class UserData(models.Model):
   language = models.IntegerField(blank=True, null=True)
   mode = models.IntegerField(blank=True, null=True)
   
+class QuizData(models.Model):
+  user = models.IntegerField(default=0,unique=True)
+  correct = models.CharField(max_length=20,blank=True, null=True)
+  word = models.IntegerField(blank=True, null=True)
+
 class LanguageData(models.Model):
   lang_ja = models.CharField(max_length=20)
   lang_en = models.CharField(max_length=5)
@@ -29,8 +34,8 @@ class UserWordData(models.Model):
   count = models.IntegerField(default=1)
   quiz = models.IntegerField(default=1)
   correct = models.IntegerField(default=1)
-  probability = models.FloatField(default=1)
-  period = models.IntegerField(default=30)
+  probability = models.FloatField(default=5)
+  period = models.IntegerField(default=1)
   hide = models.BooleanField(default=False)
   
 class ModeData(models.Model):

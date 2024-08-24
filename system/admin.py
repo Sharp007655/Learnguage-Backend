@@ -3,9 +3,31 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(UserData)
-admin.site.register(LanguageData)
-admin.site.register(AllWordData)
-admin.site.register(OriginalWordData)
-admin.site.register(UserWordData)
-admin.site.register(ModeData)
+class UserDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user_id', 'language', 'mode')
+    
+class QuizDataAdmin(admin.ModelAdmin):
+    list_display = ('id','user','correct', 'word')
+
+class LanguageDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'lang_ja', 'lang_en')
+
+class AllWordDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'word', 'read', 'mean', 'language')
+
+class OriginalWordDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'word', 'read', 'mean')
+
+class UserWordDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'word', 'count', 'quiz', 'correct', 'probability', 'period', 'hide')
+
+class ModeDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', )
+
+admin.site.register(UserData, UserDataAdmin)
+admin.site.register(QuizData,QuizDataAdmin)
+admin.site.register(LanguageData, LanguageDataAdmin)
+admin.site.register(AllWordData, AllWordDataAdmin)
+admin.site.register(OriginalWordData, OriginalWordDataAdmin)
+admin.site.register(UserWordData, UserWordDataAdmin)
+admin.site.register(ModeData, ModeDataAdmin)
