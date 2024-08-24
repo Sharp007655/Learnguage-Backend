@@ -68,14 +68,11 @@ SYMBOL_COMMA = ','
 SYMBOL_PERIOD = '.'
 SYMBOL_QUESTION = '?'
 SYMBOL_EXCLAMATION = '!'
-<<<<<<< Updated upstream
-=======
 SYMBOL_EM_SPACE = '　'
 SYMBOL_EN_SPACE = ' '
 
 # フロントエンド
 FRONT_ID_TOKEN = 'idToken'
->>>>>>> Stashed changes
 
 # その他
 LANGUAGE_TRIGGER = '語'
