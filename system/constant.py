@@ -50,6 +50,7 @@ RESPONSE_QUIZ = '次の言葉の読みを選ぼう。'
 RESPONSE_GOOD = '正解！'
 RESPONSE_BAT = '残念！'
 RESPONSE_ONE_MORE_QUIZ = '続けてもう一問する場合は下部のボタンを押してください。'
+RESPONSE_DAIRY_QUIZ = '今日の一問！'
 
 def RESPONSE_CHOOSED_LANG(language):
     return language + "を選択しました！\nこれから頑張りましょう！！"

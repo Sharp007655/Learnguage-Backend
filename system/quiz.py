@@ -7,7 +7,7 @@ import random
 from random import choices,shuffle
 
 #クイズ作成
-def quiz_create(user_id,reply_token):
+def quiz_create(user_id):
     
     word_file = []
     probability_file = []
@@ -31,11 +31,11 @@ def quiz_create(user_id,reply_token):
 
 
 #クイズ出題
-def quiz_question(user_id,reply_token):
+def quiz_question(user_id, reply_token=None):
     
     user = UserData.objects.get(user_id=user_id)
     
-    quiz_number = quiz_create(user_id,reply_token)
+    quiz_number = quiz_create(user_id)
     
     word_data = AllWordData.objects.get(id=quiz_number)
     mean = word_data.mean
@@ -58,9 +58,20 @@ def quiz_question(user_id,reply_token):
         
         # quiz_arr.append({ 'label': str(j) + ':' + option[i], 'text': str(j) + ':' + option[i]})
     
-    messages = [ messageTextFormat(RESPONSE_QUIZ), messageTranslateFormat_quiz({'source':word,'read':read}, quiz_arr) ]
+    messages = []
     
-    sendReply(messages, reply_token)
+    if reply_token == None:
+        messages.append( messageTextFormat(RESPONSE_DAIRY_QUIZ) )
+    
+    messages += [ messageTextFormat(RESPONSE_QUIZ), messageTranslateFormat_quiz({'source':word,'read':read}, quiz_arr) ]
+    
+    if reply_token == None:
+        
+        sendPushMessage(messages, user_id)
+    
+    else:
+        
+        sendReply(messages, reply_token)
     
     
     if not QuizData.objects.filter(user=user.id).exists():
