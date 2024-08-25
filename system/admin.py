@@ -8,6 +8,9 @@ class UserDataAdmin(admin.ModelAdmin):
     
 class QuizDataAdmin(admin.ModelAdmin):
     list_display = ('id','user','correct', 'word')
+    
+class ChatDataAdmin(admin.ModelAdmin):
+    list_display = ('id','user','message','llm','order')
 
 class LanguageDataAdmin(admin.ModelAdmin):
     list_display = ('id', 'lang_ja', 'lang_en')
@@ -26,6 +29,7 @@ class ModeDataAdmin(admin.ModelAdmin):
 
 admin.site.register(UserData, UserDataAdmin)
 admin.site.register(QuizData,QuizDataAdmin)
+admin.site.register(ChatData,ChatDataAdmin)
 admin.site.register(LanguageData, LanguageDataAdmin)
 admin.site.register(AllWordData, AllWordDataAdmin)
 admin.site.register(OriginalWordData, OriginalWordDataAdmin)

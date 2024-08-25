@@ -55,8 +55,6 @@ def quiz_question(user_id, reply_token=None):
         j = option.index(i)
         
         quiz_arr.append({ 'label': str(j+1) + '.' + i, 'text': str(j+1) + ' ' + i})
-        
-        # quiz_arr.append({ 'label': str(j) + ':' + option[i], 'text': str(j) + ':' + option[i]})
     
     messages = []
     
@@ -83,12 +81,6 @@ def quiz_question(user_id, reply_token=None):
     quiz_data.correct = str(correct_number) + ' ' + mean
     quiz_data.word = quiz_number
     quiz_data.save()
-    
-
-# [
-#   { "label": "1. こんにちは", "text": "こんにちは" },
-#   { "label": "2. こんばんは", "text": "こんばんは" },
-# ]
 
 
 
@@ -107,8 +99,6 @@ def probability_update(user_id,word_number,judgment):
     user_word_quiz.probability = user_word_quiz.quiz/user_word_quiz.correct
     
     user_word_count = user_word.count()
-    
-    #print(user_word_count)
     
     for word in user_word:
         
