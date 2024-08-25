@@ -4,6 +4,7 @@ from .messageFormat import *
 from .send import *
 from .quiz import *
 from .analyze import *
+from .chat import *
 
 
 def analyze(user_id, message, language):
@@ -27,10 +28,19 @@ def textCommand(user_id, message, reply_token):
     if message == MESSAGE_CHAT_START:
         
         user.mode = ModeData.objects.get(name=MODE_CHAT).id
+        sendReply([ messageTextFormat(RESPONSE_CHAT_START) ],reply_token)
+        
     
     elif message == MESSAGE_CHAT_FINISH:
         
         user.mode = None
+        ChatData.objects.filter(user = user.id).delete()
+        
+        sendReply([messageTextFormat(RESPONSE_CHAT_FINISH)], reply_token)
+        
+    elif message == MESSAGE_TRANSLATION:
+        
+        sendReply([ messageQuickReplyFormat( ChatData.objects.filter(user = user.id , llm = True).order_by('-order').first().message,[{ 'label': 'チャットを終了する', 'text': MESSAGE_CHAT_FINISH }])],reply_token)
     
     elif message == MESSAGE_QUIZ:
         
@@ -76,8 +86,8 @@ def textMessage(user_id, message, reply_token):
         sendReply(objects, reply_token)
     
     elif user.mode == ModeData.objects.get(name=MODE_CHAT).id:
-        # LLM使用部
-        pass
+        
+        chat_start(user_id,message,reply_token)
     
     elif user.mode == ModeData.objects.get(name=MODE_ANALYZE).id:
         
@@ -177,6 +187,8 @@ def deleteUser(user_id):
     UserWordData.objects.filter(user=user.id).delete()
     
     QuizData.objects.filter(user=user.id).delete()
+    
+    ChatData.objects.filter(user = user.id).delete()
     
     user.delete()
 
