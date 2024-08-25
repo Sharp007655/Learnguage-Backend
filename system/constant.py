@@ -54,6 +54,7 @@ RESPONSE_ONE_MORE_QUIZ = '続けてもう一問する場合は下部のボタン
 RESPONSE_DAIRY_QUIZ = '今日の一問！'
 RESPONSE_CHAT_START = 'チャットを始めましょう！\n(あまり長い返答は返ってきません。)'
 RESPONSE_CHAT_FINISH = 'チャットを終了します。'
+RESPONSE_NO_USER_WORD = '辞書にデータがありません。\n分析を使用して単語を増やしてください。'
 
 def RESPONSE_CHOOSED_LANG(language):
     return language + "を選択しました！\nこれから頑張りましょう！！"
