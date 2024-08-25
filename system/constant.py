@@ -39,6 +39,7 @@ MESSAGE_CHAT_START = '> チャットを開始する'
 MESSAGE_CHAT_FINISH = '> チャットを終了する'
 MESSAGE_QUIZ = '> クイズに挑戦！'
 MESSAGE_ANALYZE = '> 文構造を分析する'
+#MESSAGE_TRANSLATION = '> 和訳する'
 
 # メッセージ返信テキスト
 RESPONSE_FOLLOW = 'お友だち登録ありがとうございます！\n一緒に言語を学びましょう。'
