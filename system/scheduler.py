@@ -9,6 +9,9 @@ def quizSend():
     
     for user in users:
         
+        if not UserWordData.objects.filter(user=user.id).exists():
+            continue
+        
         user.mode = ModeData.objects.get(name=MODE_QUIZ).id
         user.save()
         
