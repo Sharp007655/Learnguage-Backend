@@ -35,6 +35,12 @@ def textCommand(user_id, message, reply_token):
         
         user.mode = None
         ChatData.objects.filter(user = user.id).delete()
+        
+        sendReply([messageTextFormat(RESPONSE_CHAT_FINISH)], reply_token)
+        
+    elif message == MESSAGE_TRANSLATION:
+        
+        sendReply([ messageQuickReplyFormat( ChatData.objects.filter(user = user.id , llm = True).order_by('-order').first().message,[{ 'label': 'チャットを終了する', 'text': MESSAGE_CHAT_FINISH }])],reply_token)
     
     elif message == MESSAGE_QUIZ:
         

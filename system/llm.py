@@ -11,8 +11,6 @@ from pydantic import BaseModel, Field
 from .constant import *
 from .models import *
 
-#借り
-
 openai.api_key = OPENAI_API_KEY
 
 class ResponseStep(BaseModel):
@@ -47,7 +45,6 @@ def options(user_id,word_number,read):
             {
                 
                 "role":"user",
-                #"content":"クイズです「" + read + "」から意味は違うけど似た言葉３つなんでしょう。またその３つの言葉を　,　,　のように絶対にいれてください。「" + read + "」を含めた４つの言葉を" + lang_ja + "に翻訳したときすべて違う言葉になる必要があります。",
                 "content":"あなたは学校の先生です。" + lang_ja + "を読んでそれが意味する日本語を答える四択問題を作っています。あなたは答えが「" + read + "」の問題で「" + read + "」とは意味が違う言葉を3つ作る用意する必要があります。その時上げられる言葉を3つ答えてください。"
                 
             },
@@ -61,7 +58,7 @@ def options(user_id,word_number,read):
     parsed_response = response.choices[0].message.parsed
     
     option = parsed_response.answer.split(", ")
-    print(option)
+    
     option.append(read)
     
     return option
@@ -87,7 +84,6 @@ def chat_reply(user_id,message):
         messages=[
             {
                 "role": "system",
-                #"content": """あなたはとても優秀なAIです。あなたは絶対に１文で返答してください。日本語で返答してください。返答した文を「」で囲まないでください。漢字含めて30文字以内で会話のように返答してください。どうしても30字超えそうな時は要約して返してください。文章以外は答えないでください。"""
                 "content": """あなたは送信者の友達です。あなたは絶対に１文で返答してください。日本語で返答してください。返答した文を「」で囲まないでください。漢字含めて30文字以内で会話のように返答してください。どうしても30字超えそうな時は要約して返してください。文章以外は答えないでください。"""
             },
             {
@@ -110,7 +106,6 @@ def chat_reply(user_id,message):
         messages_list =[
             {
                     "role": "system",
-                    #"content": """あなたはとても優秀なAIです。あなたは絶対に１文で返答してください。日本語で返答してください。返答した文を「」で囲まないでください。漢字含めて30文字以内で会話のように返答してください。どうしても30字超えそうな時は要約して返してください。文章以外は答えないでください。"""
                     "content": """あなたは送信者の友達です。あなたは絶対に１文で返答してください。日本語で返答してください。返答した文を「」で囲まないでください。漢字含めて30文字以内で会話のように返答してください。どうしても30字超えそうな時は要約して返してください。文章以外は答えないでください。"""
             },
         ]
@@ -122,8 +117,6 @@ def chat_reply(user_id,message):
         for a in range(chat_data_count):
             
             c = chat_data_number + a
-            
-            print(c)
             
             user_message = chat_data.filter(llm = False, order = c).first().message
             llm_message = chat_data.filter(llm = True, order = c).first().message
@@ -155,8 +148,6 @@ def chat_reply(user_id,message):
                 "content": "返答"
             },
         )
-        
-        print(messages_list)
     
         response = client.beta.chat.completions.parse(
             model="gpt-4o-2024-08-06",
@@ -170,7 +161,6 @@ def chat_reply(user_id,message):
 
     # レスポンスから内容を取り出して表示
     parsed_response = response.choices[0].message.parsed
-    print(parsed_response.answer)
     
     ChatData.objects.create(user = user.id,message = message,llm = False,order = chat_data_count)
     ChatData.objects.create(user = user.id,message = parsed_response.answer,llm = True,order = chat_data_count)
@@ -189,8 +179,6 @@ def chat_amount(user_id):
     
     chat_count = chat_data.filter(llm = True).count()
     chat_number = chat_data.last().order
-    
-    print(chat_count)
     
     if chat_count == 10:
         
@@ -235,12 +223,9 @@ def chat_amount(user_id):
         )
         
         parsed_response = response.choices[0].message.parsed
-        print(parsed_response.answer)
         
         ChatData.objects.filter(user = user.id,order = chat_number).delete()
         ChatData.objects.filter(user = user.id,order = chat_number + 1).delete()
         
         ChatData.objects.create(user = user.id,message = parsed_response.answer,llm = False,order = chat_number + 1)
         ChatData.objects.create(user = user.id,message = parsed_response.answer,llm = True,order = chat_number + 1)
-        
-    print("1")
