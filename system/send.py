@@ -33,6 +33,19 @@ def sendReplyValidate(objects, reply_token):
 
 
 
+def sendPushMessage(objects, user_id):
+    
+    data = { 
+        "to": user_id,
+        "messages": objects
+    }
+    
+    data = json.dumps(data)
+    
+    requests.post(LINE_Endpoint.PUSH_MESSAGE, data=data, headers=HEADERS_JSON)
+
+
+
 def sendLoadingAnimation(chat_id, sec=60):
     
     data = {
