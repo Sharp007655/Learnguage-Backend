@@ -58,7 +58,8 @@ def RESPONSE_CHOOSED_LANG(language):
 
 # DeepL言語略称
 JAPANESE = 'JA'
-ENGLISH = 'EN-US'
+ENGLISH = 'EN'
+ENGLISH_TO = 'EN-US'
 KOREAN = 'KO'
 CHINESE = 'ZH'
 
@@ -76,6 +77,7 @@ SYMBOL_PERIOD = '.'
 SYMBOL_QUESTION = '?'
 SYMBOL_EXCLAMATION = '!'
 SYMBOL_EM_SPACE = '　'
+SYMBOL_EN_SPACE = ' '
 
 # フロントエンド
 FRONT_ID_TOKEN = 'idToken'
@@ -83,3 +85,15 @@ FRONT_ID_TOKEN = 'idToken'
 # その他
 LANGUAGE_TRIGGER = '語'
 ANARYZE_RESULT = '分析結果'
+ARPABET_TO_IPA = {
+    'AA': 'ɑ', 'AE': 'æ', 'AH': 'ʌ', 'AO': 'ɔ', 'AW': 'aʊ',
+    'AY': 'aɪ', 'B': 'b', 'CH': 'tʃ', 'D': 'd', 'DH': 'ð',
+    'EH': 'ɛ', 'ER': 'ɝ', 'EY': 'eɪ', 'F': 'f', 'G': 'ɡ',
+    'HH': 'h', 'IH': 'ɪ', 'IY': 'i', 'JH': 'dʒ', 'K': 'k',
+    'L': 'l', 'M': 'm', 'N': 'n', 'NG': 'ŋ', 'OW': 'oʊ',
+    'OY': 'ɔɪ', 'P': 'p', 'R': 'ɹ', 'S': 's', 'SH': 'ʃ',
+    'T': 't', 'TH': 'θ', 'UH': 'ʊ', 'UW': 'u', 'V': 'v',
+    'W': 'w', 'Y': 'j', 'Z': 'z', 'ZH': 'ʒ',
+    # ストレスは無視するため、数字を除去
+    '0': '', '1': '', '2': ''
+}

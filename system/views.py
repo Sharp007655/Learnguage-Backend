@@ -33,7 +33,7 @@ def userDict(request):
         
         user = tokenToUser(request.GET[FRONT_ID_TOKEN])
         
-        user_words = UserWordData.objects.filter(user=user.id)
+        user_words = UserWordData.objects.filter(user=user.id).order_by('-id')
         
         words = []
         
@@ -53,27 +53,6 @@ def userDict(request):
         return JsonResponse({
             "status": "success",
             "words": words
-        })
-    
-    elif request.method == GET:
-        
-        words = AllWordData.objects.all()
-        
-        word_arr = []
-        
-        for word in words:
-            
-            dic = { 
-                "word": word.word,
-                "read": word.read,
-                "mean": word.mean,
-            }
-            
-            word_arr.append(dic)
-        
-        return JsonResponse({
-            "status": "success",
-            "words": word_arr
         })
     
     else:
