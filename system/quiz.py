@@ -35,6 +35,14 @@ def quiz_question(user_id, reply_token=None):
     
     user = UserData.objects.get(user_id=user_id)
     
+    if not UserWordData.objects.filter(user=user.id).exists():
+        
+        messages = [ messageTextFormat(RESPONSE_NO_USER_WORD) ]
+        
+        sendReply(messages, reply_token)
+        
+        return
+    
     quiz_number = quiz_create(user_id)
     
     word_data = AllWordData.objects.get(id=quiz_number)
