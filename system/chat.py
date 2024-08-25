@@ -17,4 +17,4 @@ def chat_start(user_id,message,reply_token):
     
     answer_translate = translate(answer,JAPANESE,lang_je)
     
-    sendReply([ messageTextFormat(answer_translate) , messageQuickReplyFormat(answer,[{ 'label': 'チャットを終了する', 'text': MESSAGE_CHAT_FINISH }])],reply_token)
+    sendReply([ messageQuickReplyFormat(answer_translate,[{ 'label': '和訳する', 'text': MESSAGE_TRANSLATION },{ 'label': 'チャットを終了する', 'text': MESSAGE_CHAT_FINISH }])],reply_token)

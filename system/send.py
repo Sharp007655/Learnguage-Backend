@@ -30,8 +30,6 @@ def sendReplyValidate(objects, reply_token):
     data = json.dumps(data)
     
     response = requests.post(LINE_Endpoint.REPLY_VALIDATE, data=data, headers=HEADERS_JSON)
-    
-    print(response.text)
 
 
 

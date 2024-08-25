@@ -39,7 +39,7 @@ MESSAGE_CHAT_START = '> チャットを開始する'
 MESSAGE_CHAT_FINISH = '> チャットを終了する'
 MESSAGE_QUIZ = '> クイズに挑戦！'
 MESSAGE_ANALYZE = '> 文構造を分析する'
-#MESSAGE_TRANSLATION = '> 和訳する'
+MESSAGE_TRANSLATION = '> 和訳する'
 
 # メッセージ返信テキスト
 RESPONSE_FOLLOW = 'お友だち登録ありがとうございます！\n一緒に言語を学びましょう。'
@@ -52,6 +52,7 @@ RESPONSE_GOOD = '正解！'
 RESPONSE_BAT = '残念！'
 RESPONSE_ONE_MORE_QUIZ = '続けてもう一問する場合は下部のボタンを押してください。'
 RESPONSE_CHAT_START = 'チャットを始めましょう！\n(あまり長い返答は返ってきません。)'
+RESPONSE_CHAT_FINISH = 'チャットを終了します。'
 
 def RESPONSE_CHOOSED_LANG(language):
     return language + "を選択しました！\nこれから頑張りましょう！！"
