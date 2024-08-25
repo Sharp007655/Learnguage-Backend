@@ -11,6 +11,12 @@ class QuizData(models.Model):
   user = models.IntegerField(default=0,unique=True)
   correct = models.CharField(max_length=20,blank=True, null=True)
   word = models.IntegerField(blank=True, null=True)
+  
+class ChatData(models.Model):
+  user = models.IntegerField()
+  message = models.CharField()
+  llm = models.BooleanField()
+  order = models.IntegerField()
 
 class LanguageData(models.Model):
   lang_ja = models.CharField(max_length=20)
